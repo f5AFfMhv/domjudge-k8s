@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: mariadb
+  name: mariadb-svc
+spec:
+  ports:
+  - name: "3306"
+    port: 3306
+    protocol: TCP
+    targetPort: 3306
+  selector:
+    app: mariadb
+  type: ClusterIP
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: domserver
+  name: domserver-svc
+spec:
+  ports:
+  - name: "3306"
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: domserver
+  type: ClusterIP

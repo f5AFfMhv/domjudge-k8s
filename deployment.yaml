@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: domserver
+  name: domserver
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: domserver
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: domserver
+    spec:
+      containers:
+      - image: domjudge/domserver:8.1.3
+        name: domserver
+        envFrom:
+        - configMapRef:
+            name: mariadb
+        ports:
+        - containerPort: 80
+        resources: {}
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: mariadb
+  name: mariadb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mariadb
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: mariadb
+    spec:
+      containers:
+      - image: mariadb:10.9.6
+        name: mariadb
+        ports:
+        - containerPort: 3306
+        envFrom:
+        - configMapRef:
+            name: mariadb
+        resources: {}
+
