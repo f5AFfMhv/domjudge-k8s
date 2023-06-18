@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: domserver-ingress
+spec:
+  ingressClassName: traefik
+  rules:
+  - host: domserver.home.lab
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: domserver-svc
+            port:
+              number: 80
