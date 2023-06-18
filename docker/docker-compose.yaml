@@ -33,6 +33,7 @@ services:
     privileged: true
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - ./restapi.secret:/etc/restapi.secret:ro
     environment:
       - DAEMON_ID=0
       - CONTAINER_TIMEZONE=Europe/Vilnius
@@ -49,6 +50,7 @@ services:
     privileged: true
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - ./restapi.secret:/etc/restapi.secret:ro
     environment:
       - DAEMON_ID=1
       - CONTAINER_TIMEZONE=Europe/Vilnius
