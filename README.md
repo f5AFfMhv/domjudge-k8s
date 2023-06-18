@@ -1,9 +1,20 @@
-# DOMjudge kubernetes
+# DOMjudge deployments
 
-[DOMjudge](https://www.domjudge.org/) kubernetes manifests.
+[DOMjudge](https://www.domjudge.org/)
+
+## Kubernetes
 
 ```bash
-# Deploy manifests
+cd kubernetes
 kubectl apply -f .
 ```
-Look into `domserver` pod logs for generated admin password.
+
+## Docker compose
+
+```bash
+cd docker
+docker-compose up -d
+```
+## Other
+
+For generated admin password check `domserver` container logs.
