@@ -27,12 +27,30 @@ services:
       - mariadb
     restart: unless-stopped
 
-  judgehost:
+  judgehost0:
     image: domjudge/judgehost:latest
+    hostname: judgehost0
     privileged: true
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     environment:
+      - DAEMON_ID=0
+      - CONTAINER_TIMEZONE=Europe/Vilnius
+      - JUDGEDAEMON_USERNAME=judgehost
+      - JUDGEDAEMON_PASSWORD=password
+      - DOMSERVER_BASEURL=http://domserver/
+    depends_on:
+      - domserver
+    restart: unless-stopped
+
+  judgehost1:
+    image: domjudge/judgehost:latest
+    hostname: judgehost1
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    environment:
+      - DAEMON_ID=1
       - CONTAINER_TIMEZONE=Europe/Vilnius
       - JUDGEDAEMON_USERNAME=judgehost
       - JUDGEDAEMON_PASSWORD=password
