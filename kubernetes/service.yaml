@@ -6,7 +6,7 @@ metadata:
   name: mariadb-svc
 spec:
   ports:
-  - name: "3306"
+  - name: "mysql"
     port: 3306
     protocol: TCP
     targetPort: 3306
@@ -24,7 +24,7 @@ metadata:
   name: domserver-svc
 spec:
   ports:
-  - name: "3306"
+  - name: "web"
     port: 80
     protocol: TCP
     targetPort: 80

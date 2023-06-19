@@ -113,9 +113,9 @@ spec:
             cpu: 1m
             memory: 10Mi
         volumeMounts:
-        - name: mariadb-pv
+        - name: mariadb
           mountPath: /var/lib/mysql
       volumes:
-      - name: mariadb-pv
+      - name: mariadb
         persistentVolumeClaim:
           claimName: mariadb-pvc
