@@ -1,28 +1,28 @@
 version: '3'
 services:
+
+  caddy:
+    image: caddy:latest
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - ./certs:/certs
+    ports:
+      - 80:80
+      - 443:443
+    command: ["caddy", "run", "--config", "/etc/caddy/Caddyfile", "--adapter", "caddyfile"]
+
   mariadb:
     image: mariadb:10.9.6
     volumes:
       - mariadb-vol:/var/lib/mysql
-    environment:
-      - TZ=Europe/Vilnius
-      - MYSQL_ROOT_PASSWORD=rootpw
-      - MYSQL_USER=domjudge
-      - MYSQL_PASSWORD=djpw
-      - MYSQL_DATABASE=domjudge
+    env_file:
+      - env
     restart: unless-stopped
 
   domserver:
     image: domjudge/domserver:latest
-    ports:
-      - 8080:80
-    environment:
-      - CONTAINER_TIMEZONE=Europe/Vilnius
-      - MYSQL_ROOT_PASSWORD=rootpw
-      - MYSQL_USER=domjudge
-      - MYSQL_PASSWORD=djpw
-      - MYSQL_DATABASE=domjudge
-      - MYSQL_HOST=mariadb
+    env_file:
+      - env
     depends_on:
       - mariadb
     restart: unless-stopped
@@ -33,13 +33,10 @@ services:
     privileged: true
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
-      - ./restapi.secret:/etc/restapi.secret:ro
+    env_file:
+      - env
     environment:
       - DAEMON_ID=0
-      - CONTAINER_TIMEZONE=Europe/Vilnius
-      - JUDGEDAEMON_USERNAME=judgehost
-      - JUDGEDAEMON_PASSWORD=password
-      - DOMSERVER_BASEURL=http://domserver/
     depends_on:
       - domserver
     restart: unless-stopped
@@ -50,13 +47,10 @@ services:
     privileged: true
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
-      - ./restapi.secret:/etc/restapi.secret:ro
+    env_file:
+      - env
     environment:
       - DAEMON_ID=1
-      - CONTAINER_TIMEZONE=Europe/Vilnius
-      - JUDGEDAEMON_USERNAME=judgehost
-      - JUDGEDAEMON_PASSWORD=password
-      - DOMSERVER_BASEURL=http://domserver/
     depends_on:
       - domserver
     restart: unless-stopped

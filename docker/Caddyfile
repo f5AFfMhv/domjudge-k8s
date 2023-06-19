@@ -1,0 +1,4 @@
+docker.pve.home.lab {
+    reverse_proxy domserver:80
+    tls /certs/domserver.example.com.crt /certs/domserver.example.com.key
+}
